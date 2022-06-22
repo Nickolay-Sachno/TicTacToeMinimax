@@ -3,9 +3,6 @@ class Manager {
 
     companion object{
 
-        val playerTurn = CellType.CROSS
-        val agentTurn = CellType.CIRCLE
-
         private var numOfTries = 3
 
         fun play(gameState: GameState){
@@ -13,21 +10,21 @@ class Manager {
             while(true) {
                 //if(steps == 0) return
                 when (gameState.turn) {
-                    playerTurn -> {
+                    gameState.playerTurn -> {
                         playerMakeMove(gameState);gameState.turn = gameState.agentTurn; if(gameState.isWinState(gameState, gameState.playerTurn)){
-                            println("Player wins!")
+                            Display.toConsole("Player wins!")
                             return
                         }
                     }
-                    agentTurn -> {
+                    gameState.agentTurn -> {
                         agentMakeMove(gameState);gameState.turn = gameState.playerTurn; if(gameState.isWinState(gameState, gameState.agentTurn)){
-                            println("Agent wins!")
+                            Display.toConsole("Agent wins!")
                             return
                         }
                     }
                 }
                 if(gameState.isStandOff(gameState)) {
-                    println("It's standoff =)")
+                    Display.toConsole("It's standoff =)")
                     return
                 }
                 steps --
@@ -42,35 +39,35 @@ class Manager {
             var j = 0
 
             while (true){
-                println(gameState)
-                println("Please make a move for i: ")
+                Display.toConsole(gameState)
+                Display.toConsole("Please make a move for row: ")
                 var move = readLine()
                 i = move?.toInt()!!
                 if(!validateMove(gameState, i)) {
                     numOfTries--
-                    println("Number of tries: $numOfTries")
+                    Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
                         var (k,o) = AgentMinimax.randomMove(gameState)
                         gameState.grid.matrix[k][o]?.content = gameState.playerTurn
-                        println("Player changed ($k,$o) to ${gameState.playerTurn}")
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}")
                         gameState.turn = gameState.agentTurn
-                        println(gameState)
+                        Display.toConsole(gameState)
                         return
                     }
                     continue
                 }
-                println("Please make a move for j: ")
+                Display.toConsole("Please make a move for column: ")
                 move = readLine()
                 j = move?.toInt()!!
                 if(!validateMove(gameState, j)) {
                     numOfTries--
-                    println("Number of tries: $numOfTries")
+                    Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
                         var (k,o) = AgentMinimax.randomMove(gameState)
                         gameState.grid.matrix[k][o]?.content = gameState.playerTurn
-                        println("Player changed ($k,$o) to ${gameState.playerTurn}")
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}")
                         gameState.turn = gameState.agentTurn
-                        println(gameState)
+                        Display.toConsole(gameState)
                         return
                     }
                     continue
@@ -78,18 +75,18 @@ class Manager {
                 gameState.grid.matrix[i][j]?.content = gameState.playerTurn
                 break
             }
-            println("Player changed ($i,$j) to ${gameState.playerTurn}")
+            Display.toConsole("Player changed ($i,$j) to ${gameState.playerTurn}")
             gameState.turn = gameState.agentTurn
-            println(gameState)
+            Display.toConsole(gameState)
         }
 
 
         private fun agentMakeMove(gameState: GameState) {
             val (i,j) = AgentMinimax.agentMinimax(gameState)
             gameState.grid.matrix[i][j]?.content = gameState.agentTurn
-            println("Agent changed ($i,$j) to ${gameState.agentTurn}")
+            Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentTurn}")
             gameState.turn = gameState.playerTurn
-            println(gameState)
+            Display.toConsole(gameState)
         }
 
         private fun validateMove(gameState: GameState, i: Int): Boolean {
