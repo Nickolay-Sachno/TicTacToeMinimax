@@ -11,4 +11,8 @@ class Cell (val row : Int, val col : Int){
         else
             super.equals(other)
     }
+
+    override fun toString(): String {
+        return this.content.chr.toString()
+    }
 }
