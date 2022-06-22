@@ -20,7 +20,7 @@ class Manager {
                         }
                     }
                     agentTurn -> {
-                        agentMakeMove(gameState);gameState.turn = gameState.playerTurn; if(gameState.isWinState(gameState, gameState.playerTurn)){
+                        agentMakeMove(gameState);gameState.turn = gameState.playerTurn; if(gameState.isWinState(gameState, gameState.agentTurn)){
                             println("Agent wins!")
                             return
                         }
@@ -38,7 +38,6 @@ class Manager {
         /** ###########################################                   ########################################### */
 
         private fun playerMakeMove(gameState: GameState) {
-            println("playerMakeMove()")
             var i = 0
             var j = 0
 
@@ -86,7 +85,6 @@ class Manager {
 
 
         private fun agentMakeMove(gameState: GameState) {
-            println("agentMakeMove()")
             val (i,j) = AgentMinimax.agentMinimax(gameState)
             gameState.grid.matrix[i][j]?.content = gameState.agentTurn
             println("Agent changed ($i,$j) to ${gameState.agentTurn}")
@@ -95,7 +93,6 @@ class Manager {
         }
 
         private fun validateMove(gameState: GameState, i: Int): Boolean {
-            println("validateMove()")
             return i <= gameState.grid.matrix.size - 1 && i > -1 && i is Int
         }
     }

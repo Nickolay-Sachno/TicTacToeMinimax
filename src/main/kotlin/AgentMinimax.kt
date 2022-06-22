@@ -5,13 +5,11 @@ import kotlin.random.Random
 class AgentMinimax {
     companion object{
         fun agentMinimax(gameState: GameState) : Pair<Int, Int>{
-            println("agentMinimax()")
             return alphaBeta(gameState)
             //return randomMove(gameState)
         }
 
         private fun alphaBeta(gameState: GameState): Pair<Int, Int> {
-            println("alphaBeta()")
             var bestPair : Pair<Float, Pair<Int, Int>> = Pair(-POSITIVE_INFINITY, Pair(0,0))
             var alpha = -POSITIVE_INFINITY
             var beta = POSITIVE_INFINITY
@@ -24,7 +22,6 @@ class AgentMinimax {
                         var childGameState = gameState.copy()
                         childGameState.grid.matrix[i][j]?.content = gameState.agentTurn
                         var value = alphaBeta(gameState, 9, alpha, beta, true)
-                        println("For grid \n${gameState.grid}Best value: $value")
                         gameState.grid.matrix[i][j]?.content = gameState.notVisited
                         if(value > maxValue){
                             maxValue = value
@@ -37,7 +34,6 @@ class AgentMinimax {
         }
 
         private fun alphaBeta(gameState: GameState, depth: Int, a: Float, b: Float, maximizingPlayer: Boolean) : Float{
-            //println("*** alphaBeta recursion ***")
             var alpha = a
             var beta = b
             // base case -> Cross win / Circle win // standoff
