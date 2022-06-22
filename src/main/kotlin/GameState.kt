@@ -1,13 +1,23 @@
 class GameState(
     var grid: Grid = Grid(3),
-    var turn: CellType = CellType.CROSS
+    var turn: CellType = CellType.CROSS,
+    val playerTurn: CellType = CellType.CROSS,
+    val agentTurn : CellType = CellType.CIRCLE
 ) {
     override fun toString(): String {
         return "It's $turn turn:\n$grid"
     }
 
+    fun isWinState(gameState: GameState, cellType: CellType):Boolean{
+        return horizontal(gameState, cellType) || vertical(gameState, cellType) || diagonal(gameState, cellType)
+    }
+
+    /** ###########################################                   ########################################### */
+    /** ########################################### private functions ########################################### */
+    /** ###########################################                   ########################################### */
+
     /** Win states */
-    fun horizontal(gameState: GameState, cellType: CellType) : Boolean{
+    private fun horizontal(gameState: GameState, cellType: CellType) : Boolean{
         val n = gameState.grid.matrix.size
         var seq = 0
         for(i in 0 until n){
@@ -24,7 +34,7 @@ class GameState(
         return false
     }
 
-    fun vertical(gameState: GameState, cellType: CellType) : Boolean{
+    private fun vertical(gameState: GameState, cellType: CellType) : Boolean{
         val n = gameState.grid.matrix.size
         var seq = 0
         for(i in 0 until n){
@@ -41,7 +51,7 @@ class GameState(
         return false
     }
 
-    fun diagonal(gameState: GameState, cellType: CellType) : Boolean{
+    private fun diagonal(gameState: GameState, cellType: CellType) : Boolean{
         var matrix = gameState.grid.matrix
         val n = gameState.grid.matrix.size
         var seq = 0
@@ -62,7 +72,6 @@ class GameState(
         // check from right top corner to right bottom
         var j = n-1
         for(i in 0 until n){
-            println("i: $i, j: $j\nmatrix[i][j]?.content: ${matrix[i][j]?.content}\ncellType: $cellType")
             if (matrix[i][j]?.content == cellType) {
                 seq++
             }

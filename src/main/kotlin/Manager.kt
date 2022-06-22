@@ -3,8 +3,8 @@ class Manager {
 
     companion object{
 
-        private val playerTurn = CellType.CROSS
-        private val agentTurn = CellType.CIRCLE
+        val playerTurn = CellType.CROSS
+        val agentTurn = CellType.CIRCLE
 
         private var numOfTries = 3
 
@@ -14,6 +14,9 @@ class Manager {
                 agentTurn -> agentMakeMove(gameState)
             }
         }
+        /** ###########################################                   ########################################### */
+        /** ########################################### private functions ########################################### */
+        /** ###########################################                   ########################################### */
 
         private fun playerMakeMove(gameState: GameState) {
 
@@ -21,6 +24,7 @@ class Manager {
             var j = 0
 
             while (numOfTries > 0){
+                println(gameState)
                 println("Please make a move for i: ")
                 var move = readLine()
                 i = move?.toInt()!!
@@ -37,9 +41,11 @@ class Manager {
                     println("Number of tries: $numOfTries")
                     continue
                 }
-                break
+                gameState.grid.matrix[i][j]?.content = CellType.CROSS
+                if(gameState.isWinState(gameState, CellType.CROSS))
+                    break
             }
-            gameState.grid.matrix[i][j]?.content = CellType.CROSS
+            println("Congrats ${CellType.CROSS}! You have won")
         }
 
 

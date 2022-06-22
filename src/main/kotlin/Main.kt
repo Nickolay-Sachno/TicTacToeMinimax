@@ -6,16 +6,5 @@ fun main() {
     println(grid)
 
     var gameState = GameState()
-    gameState.grid.matrix[2][0]?.content = CellType.CROSS
-    gameState.grid.matrix[1][1]?.content = CellType.CROSS
-    gameState.grid.matrix[0][2]?.content = CellType.CROSS
-    println(gameState)
-    println("Horizontal check: ${gameState.horizontal(gameState, CellType.CROSS)}")
-    println(gameState)
-    println("Vertical check: ${gameState.vertical(gameState, CellType.CROSS)}")
-    println(gameState)
-    println("Diagonal check: ${gameState.diagonal(gameState, CellType.CROSS)}")
-
-
-
+    Manager.play(gameState)
 }
