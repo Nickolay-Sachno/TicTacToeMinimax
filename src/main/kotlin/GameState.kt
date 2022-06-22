@@ -2,7 +2,8 @@ class GameState(
     var grid: Grid = Grid(3),
     var turn: CellType = CellType.CROSS,
     val playerTurn: CellType = CellType.CROSS,
-    val agentTurn : CellType = CellType.CIRCLE
+    val agentTurn : CellType = CellType.CIRCLE,
+    val notVisited: CellType = CellType.EMPTY
 ) {
     override fun toString(): String {
         return "It's $turn turn:\n$grid"
