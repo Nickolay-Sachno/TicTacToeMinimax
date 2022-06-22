@@ -15,4 +15,10 @@ class Cell (val row : Int, val col : Int){
     override fun toString(): String {
         return this.content.chr.toString()
     }
+
+    fun copy() : Cell{
+        var cell = Cell(this.row,this.row)
+        cell.content = this.content
+        return cell
+    }
 }

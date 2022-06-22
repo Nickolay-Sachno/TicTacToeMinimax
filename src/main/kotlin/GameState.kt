@@ -9,8 +9,26 @@ class GameState(
         return "It's $turn turn:\n$grid"
     }
 
+    fun copy() : GameState{
+        var copyGameState = GameState()
+        copyGameState.turn = this.turn
+        copyGameState.grid = this.grid.copy()
+        return copyGameState
+    }
+
     fun isWinState(gameState: GameState, cellType: CellType):Boolean{
         return horizontal(gameState, cellType) || vertical(gameState, cellType) || diagonal(gameState, cellType)
+    }
+
+    fun isStandOff(gameState: GameState): Boolean {
+        for(i in 0 until gameState.grid.matrix.size){
+            for(j in 0 until gameState.grid.matrix.size){
+                if(gameState.grid.matrix[i][j]?.content == gameState.notVisited){
+                    return false
+                }
+            }
+        }
+        return true
     }
 
     /** ###########################################                   ########################################### */

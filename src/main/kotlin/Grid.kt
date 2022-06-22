@@ -22,4 +22,14 @@ class Grid(
         }
         return temp
     }
+
+    fun copy() : Grid{
+        var grid = Grid(this.dim)
+        for(i in 0 until dim){
+            for(j in 0 until dim){
+                grid.matrix[i][j] = this.matrix[i][j]?.copy()
+            }
+        }
+        return grid
+    }
 }
