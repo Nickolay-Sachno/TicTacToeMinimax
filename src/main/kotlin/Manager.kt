@@ -9,6 +9,7 @@ class Manager {
             Display.toConsole("Welcome to TicTacToe game!\n$gameState")
             var steps = 2
             while(true) {
+                Thread.sleep(500)
                 //if(steps == 0) return
                 when (gameState.turn) {
                     gameState.playerTurn -> {
@@ -42,8 +43,7 @@ class Manager {
             while (true){
                 Display.toConsole("Please make a move for row: ")
                 var move = readLine()
-                i = move?.toInt()!!
-                if(!validateMove(gameState, i)) {
+                if(!validateMove(gameState, move)) {
                     numOfTries--
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
@@ -56,10 +56,11 @@ class Manager {
                     }
                     continue
                 }
+                i = move?.toInt()!!
+
                 Display.toConsole("Please make a move for column: ")
                 move = readLine()
-                j = move?.toInt()!!
-                if(!validateMove(gameState, j)) {
+                if(!validateMove(gameState, move)) {
                     numOfTries--
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
@@ -72,6 +73,8 @@ class Manager {
                     }
                     continue
                 }
+                j = move?.toInt()!!
+
                 gameState.grid.matrix[i][j]?.content = gameState.playerTurn
                 break
             }
@@ -89,8 +92,17 @@ class Manager {
             Display.toConsole(gameState)
         }
 
-        private fun validateMove(gameState: GameState, i: Int): Boolean {
-            return i <= gameState.grid.matrix.size - 1 && i > -1 && i is Int
+        private fun validateMove(gameState: GameState, i: String?): Boolean {
+            if (i != null) {
+                when{
+                    i.isEmpty() -> return false
+                    !i.all { char -> char.isDigit()} -> return false
+                    i.toInt() < 0 -> return false
+                    i.toInt() > gameState.grid.matrix.size - 1 -> return false
+                }
+                return true
+            }
+            return false
         }
     }
 }

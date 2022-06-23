@@ -3,6 +3,7 @@ import kotlin.random.Random
 
 /** Used alphabetic algorithm for agent path finding */
 class AgentMinimax {
+
     companion object{
         fun agentMove(gameState: GameState) : Pair<Int, Int>{
             //return alphaBeta(gameState)
@@ -71,7 +72,7 @@ class AgentMinimax {
                         continue
                     var childGameState = gameState.copy()
                     childGameState.grid.matrix[i][j]?.content = gameState.agentTurn
-                    var tempResult : Float = minimax(gameState, depth, true)
+                    var tempResult : Float = minimax(childGameState, depth, true)
                     if(tempResult  > bestPair.first)
                         bestPair = Pair(tempResult, Pair(i,j))
                     }
