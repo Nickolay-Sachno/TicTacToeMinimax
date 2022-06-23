@@ -3,7 +3,8 @@ class GameState(
     var turn: CellType = CellType.CROSS,
     val playerTurn: CellType = CellType.CROSS,
     val agentTurn : CellType = CellType.CIRCLE,
-    val notVisited: CellType = CellType.EMPTY
+    val notVisited: CellType = CellType.EMPTY,
+    var gridSize : Int = 3
 ) {
     override fun toString(): String {
         return "It's $turn turn:\n$grid"
@@ -44,8 +45,9 @@ class GameState(
                 if(gameState.grid.matrix[i][j]?.content == cellType)
                     seq ++
             }
-            if(seq == n)
+            if(seq == n) {
                 return true
+            }
             else{
                 seq = 0
             }
@@ -61,8 +63,9 @@ class GameState(
                 if(gameState.grid.matrix[j][i]?.content == cellType)
                     seq ++
             }
-            if(seq == n)
+            if(seq == n) {
                 return true
+            }
             else{
                 seq = 0
             }
@@ -82,8 +85,9 @@ class GameState(
             }
         }
 
-        if(seq == n)
+        if(seq == n) {
             return true
+        }
         else{
             seq = 0
         }
@@ -96,8 +100,19 @@ class GameState(
             }
             j--
         }
-        if(seq == n)
+        if(seq == n) {
             return true
+        }
+        return false
+    }
+
+    fun isMovesLeft(): Boolean {
+        for (i in 0 until gridSize){
+            for (j in 0 until gridSize){
+                if(grid.matrix[i][j]?.content == CellType.EMPTY)
+                    return true
+            }
+        }
         return false
     }
 }

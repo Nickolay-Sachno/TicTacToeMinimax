@@ -6,6 +6,7 @@ class Manager {
         private var numOfTries = 3
 
         fun play(gameState: GameState){
+            Display.toConsole("Welcome to TicTacToe game!\n$gameState")
             var steps = 2
             while(true) {
                 //if(steps == 0) return
@@ -39,7 +40,6 @@ class Manager {
             var j = 0
 
             while (true){
-                Display.toConsole(gameState)
                 Display.toConsole("Please make a move for row: ")
                 var move = readLine()
                 i = move?.toInt()!!
@@ -82,7 +82,7 @@ class Manager {
 
 
         private fun agentMakeMove(gameState: GameState) {
-            val (i,j) = AgentMinimax.agentMinimax(gameState)
+            val (i,j) = AgentMinimax.agentMove(gameState)
             gameState.grid.matrix[i][j]?.content = gameState.agentTurn
             Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentTurn}")
             gameState.turn = gameState.playerTurn
