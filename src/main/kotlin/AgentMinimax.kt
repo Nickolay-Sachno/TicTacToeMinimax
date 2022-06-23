@@ -3,10 +3,39 @@ import kotlin.random.Random
 
 /** Used alphabetic algorithm for agent path finding */
 class AgentMinimax {
+
     companion object{
-        fun agentMinimax(gameState: GameState) : Pair<Int, Int>{
-            return alphaBeta(gameState)
+        fun agentMove(gameState: GameState) : Pair<Int, Int>{
+            //return alphaBeta(gameState)
             //return randomMove(gameState)
+            return minimax(gameState)
+        }
+
+
+        fun randomMove(gameState: GameState) : Pair<Int,Int>{
+            while (true){
+                var i = Random.nextInt(gameState.grid.matrix.size)
+                var j = Random.nextInt(gameState.grid.matrix.size)
+                if(gameState.grid.matrix[i][j]?.content == gameState.notVisited)
+                    return Pair(i,j)
+            }
+        }
+
+        /** ###########################################                   ########################################### */
+        /** ########################################### private functions ########################################### */
+        /** ###########################################                   ########################################### */
+
+        // we assume here that agent is the maximizer
+        private fun evaluate(gameState: GameState) : Float{
+            // agent wins
+            if(gameState.isWinState(gameState, gameState.agentTurn))
+                return 10F
+            // player wins
+            return if(gameState.isWinState(gameState, gameState.playerTurn))
+                -10F
+            else{
+                0F
+            }
         }
 
         private fun alphaBeta(gameState: GameState): Pair<Int, Int> {
@@ -30,6 +59,24 @@ class AgentMinimax {
                     }
                 }
             }
+            return bestPair.second
+        }
+
+        private fun minimax (gameState: GameState) : Pair<Int, Int>{
+            var bestPair : Pair<Float, Pair<Int, Int>> = Pair(-POSITIVE_INFINITY, Pair(0,0))
+            var depth = 9
+
+            for(i in 0 until gameState.gridSize){
+                for(j in 0 until gameState.gridSize){
+                    if(gameState.grid.matrix[i][j]?.content != gameState.notVisited)
+                        continue
+                    var childGameState = gameState.copy()
+                    childGameState.grid.matrix[i][j]?.content = gameState.agentTurn
+                    var tempResult : Float = minimax(childGameState, depth, true)
+                    if(tempResult  > bestPair.first)
+                        bestPair = Pair(tempResult, Pair(i,j))
+                    }
+                }
             return bestPair.second
         }
 
@@ -82,12 +129,42 @@ class AgentMinimax {
             }
         }
 
-        fun randomMove(gameState: GameState) : Pair<Int,Int>{
-            while (true){
-                var i = Random.nextInt(gameState.grid.matrix.size)
-                var j = Random.nextInt(gameState.grid.matrix.size)
-                if(gameState.grid.matrix[i][j]?.content == gameState.notVisited)
-                    return Pair(i,j)
+        private fun minimax(gameState: GameState, depth:Int, maximizer: Boolean) : Float {
+            // base case
+            when(evaluate(gameState)){
+                10F -> return 10F
+                -10F -> return -10F
+            }
+            if(!gameState.isMovesLeft())
+                return 0F
+
+            if(maximizer){
+                var value = -POSITIVE_INFINITY
+                for(i in 0 until gameState.grid.matrix.size){
+                    for( j in 0 until gameState.grid.matrix.size){
+                        if(gameState.grid.matrix[i][j]?.content != CellType.EMPTY)
+                            continue
+                        // make a child node of the current game state
+                        var childGameState = gameState.copy()
+                        childGameState.grid.matrix[i][j]?.content = gameState.agentTurn
+                        value = max(value, minimax(childGameState, depth +1, false))
+                    }
+                }
+                return value
+            }
+            else{
+                var value = POSITIVE_INFINITY
+                for(i in 0 until gameState.grid.matrix.size){
+                    for( j in 0 until gameState.grid.matrix.size){
+                        if(gameState.grid.matrix[i][j]?.content != CellType.EMPTY)
+                            continue
+                        // make a child node of the current game state
+                        var childGameState = gameState.copy()
+                        childGameState.grid.matrix[i][j]?.content = gameState.playerTurn
+                        value = min(value, minimax(childGameState, depth +1, true))
+                    }
+                }
+                return value
             }
         }
     }
