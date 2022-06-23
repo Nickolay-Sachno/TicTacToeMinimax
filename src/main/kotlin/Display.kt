@@ -1,7 +1,7 @@
 class Display {
     companion object{
-        fun toConsole(str:Any){
-            Thread.sleep(500)
+        fun toConsole(str:Any, delay:Int = 500){
+            Thread.sleep(delay.toLong())
             println(str.toString())
         }
     }

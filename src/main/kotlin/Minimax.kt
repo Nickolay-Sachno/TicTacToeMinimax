@@ -159,13 +159,6 @@ internal object GFG1 {
                 }
             }
         }
-        System.out.printf(
-            """
-    The value of the best Move is : %d
-    
-    
-    """.trimIndent(), bestVal
-        )
         return bestMove
     }
 

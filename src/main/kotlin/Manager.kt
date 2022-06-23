@@ -9,7 +9,6 @@ class Manager {
             Display.toConsole("Welcome to TicTacToe game!\n$gameState")
             var steps = 2
             while(true) {
-                Thread.sleep(500)
                 //if(steps == 0) return
                 when (gameState.turn) {
                     gameState.playerTurn -> {
@@ -41,7 +40,7 @@ class Manager {
             var j = 0
 
             while (true){
-                Display.toConsole("Please make a move for row: ")
+                Display.toConsole("Please make a move for row: ", delay = 0)
                 var move = readLine()
                 if(!validateMove(gameState, move)) {
                     numOfTries--
@@ -49,7 +48,7 @@ class Manager {
                     if(numOfTries < 1){
                         var (k,o) = AgentMinimax.randomMove(gameState)
                         gameState.grid.matrix[k][o]?.content = gameState.playerTurn
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}")
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
                         gameState.turn = gameState.agentTurn
                         Display.toConsole(gameState)
                         return
@@ -58,7 +57,7 @@ class Manager {
                 }
                 i = move?.toInt()!!
 
-                Display.toConsole("Please make a move for column: ")
+                Display.toConsole("Please make a move for column: ", delay = 0)
                 move = readLine()
                 if(!validateMove(gameState, move)) {
                     numOfTries--
@@ -66,7 +65,7 @@ class Manager {
                     if(numOfTries < 1){
                         var (k,o) = AgentMinimax.randomMove(gameState)
                         gameState.grid.matrix[k][o]?.content = gameState.playerTurn
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}")
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
                         gameState.turn = gameState.agentTurn
                         Display.toConsole(gameState)
                         return
