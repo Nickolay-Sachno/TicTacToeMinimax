@@ -1,10 +1,15 @@
 import java.lang.Float.*
 import kotlin.random.Random
 
-/** Used alphabetic algorithm for agent path finding */
-class AgentMinimax {
+/** Class Agent is used as computer player
+ *
+ * You can use two algorithms for the agent, in the fun agentMove select the random choice
+ * for the coordinates or using the minimax algorithm
+ * */
+class Agent {
 
     companion object{
+        /** Return the coordinates (i,j) for the Agent's move  */
         fun agentMove(gameState: GameState) : Pair<Int, Int>{
             //return randomMove(gameState)
             return minimax(gameState)
@@ -15,7 +20,7 @@ class AgentMinimax {
             while (true){
                 var i = Random.nextInt(gameState.grid.matrix.size)
                 var j = Random.nextInt(gameState.grid.matrix.size)
-                if(gameState.grid.matrix[i][j]?.content == gameState.notVisited)
+                if(gameState.grid.matrix[i][j].content == gameState.notVisited)
                     return Pair(i,j)
             }
         }

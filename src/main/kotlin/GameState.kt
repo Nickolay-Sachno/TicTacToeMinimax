@@ -1,10 +1,10 @@
 class GameState(
-    var grid: Grid = Grid(3),
+    var gridSize: Int = 3, // default TicTacToe
+    var grid: Grid = Grid(gridSize),
     var turn: CellType = CellType.CROSS,
     val playerTurn: CellType = CellType.CROSS,
-    val agentTurn : CellType = CellType.CIRCLE,
-    val notVisited: CellType = CellType.EMPTY,
-    var gridSize : Int = 3
+    val agentTurn: CellType = CellType.CIRCLE,
+    val notVisited: CellType = CellType.EMPTY
 ) {
     override fun toString(): String {
         return "It's $turn turn:\n$grid"
@@ -18,15 +18,14 @@ class GameState(
     }
 
     fun isWinState(gameState: GameState, cellType: CellType):Boolean{
-        return horizontal(gameState, cellType) || vertical(gameState, cellType) || diagonal(gameState, cellType)
+        return isHorizontalWin(cellType) || isVerticalWin(cellType) || isDiagonalWin(cellType)
     }
 
-    fun isStandOff(gameState: GameState): Boolean {
-        for(i in 0 until gameState.grid.matrix.size){
-            for(j in 0 until gameState.grid.matrix.size){
-                if(gameState.grid.matrix[i][j]?.content == gameState.notVisited){
+    fun isStandOff(): Boolean {
+        grid.matrix.forEach { row ->
+            row.forEach { cell ->
+                if(cell.content == notVisited)
                     return false
-                }
             }
         }
         return true
@@ -37,12 +36,18 @@ class GameState(
     /** ###########################################                   ########################################### */
 
     /** Win states */
-    private fun horizontal(gameState: GameState, cellType: CellType) : Boolean{
-        val n = gameState.grid.matrix.size
+    private fun isHorizontalWin(cellType: CellType) : Boolean{
+         return grid.matrix.any { row ->
+            row.all { cell ->  cell.content == cellType }
+        }
+    }
+
+    private fun isVerticalWin(cellType: CellType) : Boolean{
+        val n = gridSize
         var seq = 0
         for(i in 0 until n){
             for(j in 0 until n){
-                if(gameState.grid.matrix[i][j]?.content == cellType)
+                if(grid.matrix[j][i].content == cellType)
                     seq ++
             }
             if(seq == n) {
@@ -55,32 +60,13 @@ class GameState(
         return false
     }
 
-    private fun vertical(gameState: GameState, cellType: CellType) : Boolean{
-        val n = gameState.grid.matrix.size
-        var seq = 0
-        for(i in 0 until n){
-            for(j in 0 until n){
-                if(gameState.grid.matrix[j][i]?.content == cellType)
-                    seq ++
-            }
-            if(seq == n) {
-                return true
-            }
-            else{
-                seq = 0
-            }
-        }
-        return false
-    }
-
-    private fun diagonal(gameState: GameState, cellType: CellType) : Boolean{
-        var matrix = gameState.grid.matrix
-        val n = gameState.grid.matrix.size
+    private fun isDiagonalWin(cellType: CellType) : Boolean{
+        val n = gridSize
         var seq = 0
 
         // check from left top corner to right bottom
         for(i in 0 until n){
-            if(cellType == matrix[i][i]?.content) {
+            if(cellType == grid.matrix[i][i].content) {
                 seq++
             }
         }
@@ -95,7 +81,7 @@ class GameState(
         // check from right top corner to right bottom
         var j = n-1
         for(i in 0 until n){
-            if (matrix[i][j]?.content == cellType) {
+            if (grid.matrix[i][j].content == cellType) {
                 seq++
             }
             j--
@@ -107,12 +93,6 @@ class GameState(
     }
 
     fun isMovesLeft(): Boolean {
-        for (i in 0 until gridSize){
-            for (j in 0 until gridSize){
-                if(grid.matrix[i][j]?.content == CellType.EMPTY)
-                    return true
-            }
-        }
-        return false
+        return grid.isMovesLeft()
     }
 }
