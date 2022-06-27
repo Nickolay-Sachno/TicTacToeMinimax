@@ -1,4 +1,3 @@
-import java.lang.Float.*
 import kotlin.random.Random
 
 /** Class Agent is used as computer player
@@ -20,7 +19,7 @@ class Agent {
             while (true){
                 var i = Random.nextInt(gameState.grid.matrix.size)
                 var j = Random.nextInt(gameState.grid.matrix.size)
-                if(gameState.grid.matrix[i][j].content == gameState.notVisited)
+                if(gameState.grid.matrix[i][j].content == gameState.notVisitedCellType)
                     return Pair(i,j)
             }
         }

@@ -1,6 +1,6 @@
 /** This class represents a cell in the grid of TicTacToe */
-class Cell (val row : Int, val col : Int){
-    var content : CellType = CellType.EMPTY
+class Cell (val row : Int, val col : Int, var content : CellType = CellType.EMPTY){
+
     fun clear(){
         this.content = CellType.EMPTY
     }
@@ -17,8 +17,10 @@ class Cell (val row : Int, val col : Int){
     }
 
     fun copy() : Cell{
-        var cell = Cell(this.row,this.row)
-        cell.content = this.content
-        return cell
+        return Cell(
+            row = this.row,
+            col = this.col,
+            content = this.content
+        )
     }
 }

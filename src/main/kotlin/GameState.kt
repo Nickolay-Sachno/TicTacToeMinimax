@@ -1,20 +1,24 @@
 class GameState(
     var gridSize: Int = 3, // default TicTacToe
     var grid: Grid = Grid(gridSize),
-    var turn: CellType = CellType.CROSS,
-    val playerTurn: CellType = CellType.CROSS,
-    val agentTurn: CellType = CellType.CIRCLE,
-    val notVisited: CellType = CellType.EMPTY
+    var currentTurn: CellType = CellType.CROSS,
+    val playerCellType: CellType = CellType.CROSS,
+    val agentCellType: CellType = CellType.CIRCLE,
+    val notVisitedCellType: CellType = CellType.EMPTY
 ) {
     override fun toString(): String {
-        return "It's $turn turn:\n$grid"
+        return "It's $currentTurn turn:\n$grid"
     }
 
     fun copy() : GameState{
-        var copyGameState = GameState()
-        copyGameState.turn = this.turn
-        copyGameState.grid = this.grid.copy()
-        return copyGameState
+        return GameState(
+            gridSize = this.gridSize,
+            grid = this.grid.copy(),
+            currentTurn = this.currentTurn,
+            playerCellType = this.playerCellType,
+            agentCellType = this.agentCellType,
+            notVisitedCellType = this.notVisitedCellType
+        )
     }
 
     fun isWinState(gameState: GameState, cellType: CellType):Boolean{
@@ -24,7 +28,7 @@ class GameState(
     fun isStandOff(): Boolean {
         grid.matrix.forEach { row ->
             row.forEach { cell ->
-                if(cell.content == notVisited)
+                if(cell.content == notVisitedCellType)
                     return false
             }
         }

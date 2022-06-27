@@ -10,15 +10,15 @@ class Manager {
             var steps = 2
             while(true) {
                 //if(steps == 0) return
-                when (gameState.turn) {
-                    gameState.playerTurn -> {
-                        playerMakeMove(gameState);gameState.turn = gameState.agentTurn; if(gameState.isWinState(gameState, gameState.playerTurn)){
+                when (gameState.currentTurn) {
+                    gameState.playerCellType -> {
+                        playerMakeMove(gameState);gameState.currentTurn = gameState.agentCellType; if(gameState.isWinState(gameState, gameState.playerCellType)){
                             Display.toConsole("Player wins!")
                             return
                         }
                     }
-                    gameState.agentTurn -> {
-                        agentMakeMove(gameState);gameState.turn = gameState.playerTurn; if(gameState.isWinState(gameState, gameState.agentTurn)){
+                    gameState.agentCellType -> {
+                        agentMakeMove(gameState);gameState.currentTurn = gameState.playerCellType; if(gameState.isWinState(gameState, gameState.agentCellType)){
                             Display.toConsole("Agent wins!")
                             return
                         }
@@ -47,9 +47,9 @@ class Manager {
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
                         var (k,o) = Agent.randomMove(gameState)
-                        gameState.grid.matrix[k][o].content = gameState.playerTurn
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
-                        gameState.turn = gameState.agentTurn
+                        gameState.grid.matrix[k][o].content = gameState.playerCellType
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerCellType}", delay = 0)
+                        gameState.currentTurn = gameState.agentCellType
                         Display.toConsole(gameState)
                         return
                     }
@@ -64,9 +64,9 @@ class Manager {
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
                         var (k,o) = Agent.randomMove(gameState)
-                        gameState.grid.matrix[k][o].content = gameState.playerTurn
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
-                        gameState.turn = gameState.agentTurn
+                        gameState.grid.matrix[k][o].content = gameState.playerCellType
+                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerCellType}", delay = 0)
+                        gameState.currentTurn = gameState.agentCellType
                         Display.toConsole(gameState)
                         return
                     }
@@ -74,20 +74,20 @@ class Manager {
                 }
                 j = move?.toInt()!!
 
-                gameState.grid.matrix[i][j].content = gameState.playerTurn
+                gameState.grid.matrix[i][j].content = gameState.playerCellType
                 break
             }
-            Display.toConsole("Player changed ($i,$j) to ${gameState.playerTurn}")
-            gameState.turn = gameState.agentTurn
+            Display.toConsole("Player changed ($i,$j) to ${gameState.playerCellType}")
+            gameState.currentTurn = gameState.agentCellType
             Display.toConsole(gameState)
         }
 
 
         private fun agentMakeMove(gameState: GameState) {
             val (i,j) = Agent.agentMove(gameState)
-            gameState.grid.matrix[i][j].content = gameState.agentTurn
-            Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentTurn}")
-            gameState.turn = gameState.playerTurn
+            gameState.grid.matrix[i][j].content = gameState.agentCellType
+            Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentCellType}")
+            gameState.currentTurn = gameState.playerCellType
             Display.toConsole(gameState)
         }
 
