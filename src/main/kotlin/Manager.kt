@@ -24,7 +24,7 @@ class Manager {
                         }
                     }
                 }
-                if(gameState.isStandOff(gameState)) {
+                if(gameState.isStandOff()) {
                     Display.toConsole("It's standoff =)")
                     return
                 }
@@ -46,8 +46,8 @@ class Manager {
                     numOfTries--
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
-                        var (k,o) = AgentMinimax.randomMove(gameState)
-                        gameState.grid.matrix[k][o]?.content = gameState.playerTurn
+                        var (k,o) = Agent.randomMove(gameState)
+                        gameState.grid.matrix[k][o].content = gameState.playerTurn
                         Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
                         gameState.turn = gameState.agentTurn
                         Display.toConsole(gameState)
@@ -63,8 +63,8 @@ class Manager {
                     numOfTries--
                     Display.toConsole("Number of tries: $numOfTries")
                     if(numOfTries < 1){
-                        var (k,o) = AgentMinimax.randomMove(gameState)
-                        gameState.grid.matrix[k][o]?.content = gameState.playerTurn
+                        var (k,o) = Agent.randomMove(gameState)
+                        gameState.grid.matrix[k][o].content = gameState.playerTurn
                         Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerTurn}", delay = 0)
                         gameState.turn = gameState.agentTurn
                         Display.toConsole(gameState)
@@ -74,7 +74,7 @@ class Manager {
                 }
                 j = move?.toInt()!!
 
-                gameState.grid.matrix[i][j]?.content = gameState.playerTurn
+                gameState.grid.matrix[i][j].content = gameState.playerTurn
                 break
             }
             Display.toConsole("Player changed ($i,$j) to ${gameState.playerTurn}")
@@ -84,8 +84,8 @@ class Manager {
 
 
         private fun agentMakeMove(gameState: GameState) {
-            val (i,j) = AgentMinimax.agentMove(gameState)
-            gameState.grid.matrix[i][j]?.content = gameState.agentTurn
+            val (i,j) = Agent.agentMove(gameState)
+            gameState.grid.matrix[i][j].content = gameState.agentTurn
             Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentTurn}")
             gameState.turn = gameState.playerTurn
             Display.toConsole(gameState)

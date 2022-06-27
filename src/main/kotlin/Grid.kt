@@ -3,16 +3,14 @@ import kotlin.random.Random
 /** Control the grid of TicTacToe. The default dimension is 3, but can be modified */
 class Grid(
     private val dim : Int,
-    var matrix: Array<Array<Cell?>> = Array(dim) { arrayOfNulls<Cell>(dim) }
-    ) {
-
-    init {
-        for(i in matrix.indices){
-            for(j in 0 until matrix[0].size){
-                matrix[i][j] = Cell(i,j)
+    var matrix: Array<Array<Cell>> = kotlin.run {
+        Array(dim) { row ->
+            Array(dim) { col ->
+                Cell(row, col)
             }
         }
     }
+) {
 
     override fun toString(): String {
         var temp : String = ""
@@ -26,23 +24,21 @@ class Grid(
     }
 
     fun copy() : Grid{
-        var grid = Grid(this.dim)
-        for(i in 0 until dim){
-            for(j in 0 until dim){
-                grid.matrix[i][j] = this.matrix[i][j]?.copy()
+        val grid = Grid(this.dim)
+        grid.matrix.forEachIndexed { row, arrayOfCells ->
+            arrayOfCells.forEachIndexed { column, cell ->
+                grid.matrix[row][column] = this.matrix[row][column].copy()
             }
         }
         return grid
     }
 
     fun isMovesLeft() : Boolean {
-        for(i in matrix.indices){
-            for(j in matrix.indices){
-                if(matrix[i][j]?.content == CellType.EMPTY)
-                    return true
+        return matrix.any { row ->
+            row.any { cell ->
+                cell.content == CellType.EMPTY
             }
         }
-        return false
     }
 
     fun fillRandomGrid() : Grid{
@@ -51,7 +47,7 @@ class Grid(
         for(i in 0 until dim){
             for(j in 0 until dim){
                 var temp = Random.nextInt(listOfMoves.size)
-                grid.matrix[i][j]?.content = listOfMoves[temp]
+                grid.matrix[i][j].content = listOfMoves[temp]
             }
         }
         return grid
@@ -63,7 +59,7 @@ class Grid(
         for(i in 0 until dim){
             for(j in 0 until dim){
                 var temp = Random.nextInt(listOfMoves.size)
-                grid.matrix[i][j]?.content = listOfMoves[temp]
+                grid.matrix[i][j].content = listOfMoves[temp]
             }
         }
         return grid
@@ -73,7 +69,7 @@ class Grid(
         var charArr = Array(dim) { CharArray(dim) }
         for(i in 0 until dim){
             for(j in 0 until dim){
-                charArr[i][j] = this.matrix[i][j]?.content!!?.chr.lowercaseChar()
+                charArr[i][j] = this.matrix[i][j].content!!.chr.lowercaseChar()
             }
         }
         return charArr
