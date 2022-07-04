@@ -3,22 +3,22 @@ class Manager {
 
     companion object{
 
+        // if user enters incorrect input, random move will be added
         private var numOfTries = 3
 
         fun play(gameState: GameState){
             Display.toConsole("Welcome to TicTacToe game!\n$gameState")
-            var steps = 2
             while(true) {
                 //if(steps == 0) return
                 when (gameState.currentTurn) {
                     gameState.playerCellType -> {
-                        playerMakeMove(gameState);gameState.currentTurn = gameState.agentCellType; if(gameState.isWinState(gameState, gameState.playerCellType)){
+                        playerMakeMove(gameState);gameState.currentTurn = gameState.agentCellType; if(gameState.isWinState(gameState.playerCellType)){
                             Display.toConsole("Player wins!")
                             return
                         }
                     }
                     gameState.agentCellType -> {
-                        agentMakeMove(gameState);gameState.currentTurn = gameState.playerCellType; if(gameState.isWinState(gameState, gameState.agentCellType)){
+                        agentMakeMove(gameState);gameState.currentTurn = gameState.playerCellType; if(gameState.isWinState(gameState.agentCellType)){
                             Display.toConsole("Agent wins!")
                             return
                         }
@@ -28,76 +28,56 @@ class Manager {
                     Display.toConsole("It's standoff =)")
                     return
                 }
-                steps --
             }
         }
-        /** ###########################################                   ########################################### */
-        /** ########################################### private functions ########################################### */
-        /** ###########################################                   ########################################### */
 
-        private fun playerMakeMove(gameState: GameState) {
-            var i = 0
-            var j = 0
+        fun playerMakeMove(gameState: GameState) {
 
             while (true){
                 Display.toConsole("Please make a move for row: ", delay = 0)
-                var move = readLine()
-                if(!validateMove(gameState, move)) {
-                    numOfTries--
-                    Display.toConsole("Number of tries: $numOfTries")
-                    if(numOfTries < 1){
-                        var (k,o) = Agent.randomMove(gameState)
-                        gameState.grid.matrix[k][o].content = gameState.playerCellType
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerCellType}", delay = 0)
-                        gameState.currentTurn = gameState.agentCellType
-                        Display.toConsole(gameState)
-                        return
-                    }
-                    continue
-                }
-                i = move?.toInt()!!
-
+                var row = readLine()
                 Display.toConsole("Please make a move for column: ", delay = 0)
-                move = readLine()
-                if(!validateMove(gameState, move)) {
+                var col = readLine()
+                if(!validateMove(gameState, row, col)) {
                     numOfTries--
-                    Display.toConsole("Number of tries: $numOfTries")
+                    Display.toConsole("Incorrect input, please try again")
                     if(numOfTries < 1){
                         var (k,o) = Agent.randomMove(gameState)
                         gameState.grid.matrix[k][o].content = gameState.playerCellType
-                        Display.toConsole("Player changed cell ($k,$o) to ${gameState.playerCellType}", delay = 0)
+                        Display.toConsole("Was randomly chosen ($k,$o) to ${gameState.playerCellType}", delay = 0)
                         gameState.currentTurn = gameState.agentCellType
                         Display.toConsole(gameState)
                         return
                     }
                     continue
                 }
-                j = move?.toInt()!!
 
-                gameState.grid.matrix[i][j].content = gameState.playerCellType
+                gameState.grid.matrix[row?.toInt()!!][col?.toInt()!!].content = gameState.playerCellType
+                Display.toConsole("Player changed ($row,$col) to ${gameState.playerCellType}")
                 break
             }
-            Display.toConsole("Player changed ($i,$j) to ${gameState.playerCellType}")
             gameState.currentTurn = gameState.agentCellType
             Display.toConsole(gameState)
         }
 
 
-        private fun agentMakeMove(gameState: GameState) {
-            val (i,j) = Agent.agentMove(gameState)
-            gameState.grid.matrix[i][j].content = gameState.agentCellType
-            Display.toConsole("Agent changed cell ($i,$j) to ${gameState.agentCellType}")
+        fun agentMakeMove(gameState: GameState) {
+            val (row,col) = Agent.agentMove(gameState)
+            gameState.grid.matrix[row][col].content = gameState.agentCellType
+            Display.toConsole("Agent changed cell ($row,$col) to ${gameState.agentCellType}")
             gameState.currentTurn = gameState.playerCellType
             Display.toConsole(gameState)
         }
 
-        private fun validateMove(gameState: GameState, i: String?): Boolean {
-            if (i != null) {
+        fun validateMove(gameState: GameState, row: String?, col: String?): Boolean {
+            if (row != null && col != null) {
                 when{
-                    i.isEmpty() -> return false
-                    !i.all { char -> char.isDigit()} -> return false
-                    i.toInt() < 0 -> return false
-                    i.toInt() > gameState.grid.matrix.size - 1 -> return false
+                    (row.isEmpty() || col.isEmpty() ||
+                            !row.all { char -> char.isDigit()} || !col.all { char -> char.isDigit() } ||
+                            row.toInt() < 0 || col.toInt() < 0 ||
+                            row.toInt() > gameState.gridSize - 1 || col.toInt() > gameState.gridSize - 1 ||
+                            gameState.grid.matrix[row.toInt()][col.toInt()].content != CellType.EMPTY
+                            ) -> return false
                 }
                 return true
             }

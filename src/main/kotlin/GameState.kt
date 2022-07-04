@@ -7,7 +7,7 @@ class GameState(
     val notVisitedCellType: CellType = CellType.EMPTY
 ) {
     override fun toString(): String {
-        return "It's $currentTurn turn:\n$grid"
+        return "$grid\nIt's $currentTurn player turn\n"
     }
 
     fun copy() : GameState{
@@ -21,7 +21,7 @@ class GameState(
         )
     }
 
-    fun isWinState(gameState: GameState, cellType: CellType):Boolean{
+    fun isWinState(cellType: CellType):Boolean{
         return isHorizontalWin(cellType) || isVerticalWin(cellType) || isDiagonalWin(cellType)
     }
 
@@ -33,6 +33,10 @@ class GameState(
             }
         }
         return true
+    }
+
+    fun isMovesLeft(): Boolean {
+        return grid.isMovesLeft()
     }
 
     /** ###########################################                   ########################################### */
@@ -94,9 +98,5 @@ class GameState(
             return true
         }
         return false
-    }
-
-    fun isMovesLeft(): Boolean {
-        return grid.isMovesLeft()
     }
 }
