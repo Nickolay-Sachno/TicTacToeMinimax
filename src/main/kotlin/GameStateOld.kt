@@ -1,4 +1,4 @@
-class GameState(
+class GameStateOld(
     var gridSize: Int = 3, // default TicTacToe
     var grid: Grid = Grid(gridSize),
     var currentTurn: CellType = CellType.CROSS,
@@ -7,11 +7,11 @@ class GameState(
     val notVisitedCellType: CellType = CellType.EMPTY
 ) {
     override fun toString(): String {
-        return "$grid\nIt's $currentTurn player turn\n"
+        return "$grid\nIt's $currentTurn player turn\n "
     }
 
-    fun copy() : GameState{
-        return GameState(
+    fun copy() : GameStateOld{
+        return GameStateOld(
             gridSize = this.gridSize,
             grid = this.grid.copy(),
             currentTurn = this.currentTurn,
@@ -37,6 +37,14 @@ class GameState(
 
     fun isMovesLeft(): Boolean {
         return grid.isMovesLeft()
+    }
+
+    fun setNewCell(cell: Cell){
+        grid.setNewCell(cell)
+    }
+
+    fun getCell(row:Int, col:Int) : Cell {
+        return grid.matrix[row][col]
     }
 
     /** ###########################################                   ########################################### */

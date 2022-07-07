@@ -5,21 +5,21 @@ import kotlin.random.Random
  * You can use two algorithms for the agent, in the fun agentMove select the random choice
  * for the coordinates or using the minimax algorithm
  * */
-class Agent {
+class AgentOld {
 
     companion object{
         /** Return the coordinates (i,j) for the Agent's move  */
-        fun agentMove(gameState: GameState) : Pair<Int, Int>{
+        fun agentMove(gameStateOld: GameStateOld) : Pair<Int, Int>{
             //return randomMove(gameState)
-            return minimax(gameState)
+            return minimax(gameStateOld)
         }
 
 
-        fun randomMove(gameState: GameState) : Pair<Int,Int>{
+        fun randomMove(gameStateOld: GameStateOld) : Pair<Int,Int>{
             while (true){
-                var i = Random.nextInt(gameState.grid.matrix.size)
-                var j = Random.nextInt(gameState.grid.matrix.size)
-                if(gameState.grid.matrix[i][j].content == gameState.notVisitedCellType)
+                var i = Random.nextInt(gameStateOld.grid.matrix.size)
+                var j = Random.nextInt(gameStateOld.grid.matrix.size)
+                if(gameStateOld.grid.matrix[i][j].content == gameStateOld.notVisitedCellType)
                     return Pair(i,j)
             }
         }
@@ -28,8 +28,8 @@ class Agent {
         /** ########################################### private functions ########################################### */
         /** ###########################################                   ########################################### */
 
-        private fun minimax(gameState: GameState) : Pair<Int, Int>{
-            val bestMove = GFG1.findBestMove(gameState.grid.gridToCharMatrix())
+        private fun minimax(gameStateOld: GameStateOld) : Pair<Int, Int>{
+            val bestMove = GFG1.findBestMove(gameStateOld.grid.gridToCharMatrix())
             return Pair(bestMove.row, bestMove.col)
         }
     }

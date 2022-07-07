@@ -74,4 +74,8 @@ class Grid(
         }
         return charArr
     }
+
+    fun setNewCell(cell: Cell) {
+        matrix[cell.row][cell.col] = cell.copy()
+    }
 }

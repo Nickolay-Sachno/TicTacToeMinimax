@@ -1,5 +1,5 @@
 /** This class represents a cell in the grid of TicTacToe */
-class Cell (val row : Int, val col : Int, var content : CellType = CellType.EMPTY){
+class Cell (val row : Int = -1, val col : Int = -1, var content : CellType = CellType.EMPTY){
 
     fun clear(){
         this.content = CellType.EMPTY
