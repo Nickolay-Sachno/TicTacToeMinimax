@@ -4,7 +4,7 @@ class GameStateTest(
     val notVisitedCell: Cell) {
 
     override fun toString(): String {
-        return "$grid\nTurn: ${currentTurn().cellType}"
+        return "$grid\n"
     }
 
     fun getNextPlayer() : Player{
@@ -19,17 +19,18 @@ class GameStateTest(
     }
 
     fun getCell(row : Int, col : Int): Cell {
-        return grid.matrix[row][col]
+        return grid.getCell(row, col)
     }
 
     fun getGridSize() : Int {
-        return grid.matrix.size
+        return grid.getSize()
     }
 
     fun setCell(cell: Cell){
-        grid.matrix[cell.row][cell.col] = cell
+        grid.setNewCell(cell)
     }
 
+    /** Return true if current game state has a winner */
     fun isWinState(cell: Cell):Boolean{
         return isHorizontalWin(cell) || isVerticalWin(cell) || isDiagonalWin(cell)
     }

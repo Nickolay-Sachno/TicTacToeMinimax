@@ -7,12 +7,12 @@ fun main() {
     val gameStateTest = GameStateTest(
         grid = Grid(3),
         listOfPlayers = mutableListOf(
+            User(
+                cellType = CellType.CROSS
+            ) as Player,
             NewAgent.createAgent(
                 cellType = CellType.CIRCLE,
                 diff = AgentDiff.MEDIUM
-            ) as Player,
-            User(
-                cellType = CellType.CROSS
             ) as Player
         ),
         notVisitedCell = Cell()

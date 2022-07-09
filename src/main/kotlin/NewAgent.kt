@@ -28,7 +28,6 @@ class RandomAgent(
     }
 }
 
-
 class MinimaxAgent(
     cellType: CellType,
     diff: AgentDiff

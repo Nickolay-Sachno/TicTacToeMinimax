@@ -78,4 +78,12 @@ class Grid(
     fun setNewCell(cell: Cell) {
         matrix[cell.row][cell.col] = cell.copy()
     }
+
+    fun getSize() : Int{
+        return dim
+    }
+
+    fun getCell(row:Int, col:Int) : Cell{
+        return matrix[row][col]
+    }
 }
