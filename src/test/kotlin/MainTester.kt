@@ -15,7 +15,8 @@ fun main() {
                 diff = AgentDiff.MEDIUM
             ) as Player
         ),
-        notVisitedCell = Cell()
+        notVisitedCell = Cell(),
+        listOfMoves = mutableListOf()
     )
 
     Manager.play(gameStateTest)

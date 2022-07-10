@@ -21,6 +21,7 @@ class Manager {
         }
 
         private fun getCurrentPlayerAngMakeMove(gameStateTest: GameStateTest)  : Player{
+            gameStateTest.prevGameStateTest = gameStateTest.copy()
             val currentPlayer = gameStateTest.getNextPlayer()
             val (row, col) = currentPlayer.getNextMove(gameStateTest)
             gameStateTest.setCell(Cell(
@@ -28,6 +29,7 @@ class Manager {
                 col = col,
                 content = currentPlayer.cellType
             ))
+            gameStateTest.listOfMoves.add(Pair(row,col))
             return currentPlayer
         }
     }

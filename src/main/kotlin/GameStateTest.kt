@@ -1,10 +1,22 @@
 class GameStateTest(
     val grid: Grid,
     val listOfPlayers: MutableList<Player>,
-    val notVisitedCell: Cell) {
+    val notVisitedCell: Cell,
+    val listOfMoves : MutableList<Pair<Int,Int>>) {
+
+    var prevGameStateTest: GameStateTest = this
 
     override fun toString(): String {
         return "$grid\n"
+    }
+
+    fun copy() : GameStateTest{
+        return GameStateTest(
+            grid = this.grid.copy(),
+            listOfPlayers = this.listOfPlayers.toMutableList(),
+            notVisitedCell = this.notVisitedCell,
+            listOfMoves = this.listOfMoves.toMutableList()
+        )
     }
 
     fun getNextPlayer() : Player{
