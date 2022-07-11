@@ -1,35 +1,36 @@
 class Manager {
     companion object {
-        fun play(gameStateTest: GameStateTest) {
+        fun play(gameState: GameState) {
             Display.toConsole("Welcome to TicTacToe !")
+            var currentGameState = gameState.deepCopy()
             while (true) {
-                Display.toConsole("$gameStateTest")
-                val currentPlayer = getCurrentPlayerAngMakeMove(gameStateTest)
+                Display.toConsole("$currentGameState")
+                val currentPlayer = getCurrentPlayerAngMakeMove(currentGameState)
                 val currentPlayerCellType = currentPlayer.cellType
-                if (gameStateTest.isWinState(Cell(content = currentPlayerCellType))
-                    || gameStateTest.isStandOff()){
+                if (currentGameState.isWinState(Cell(content = currentPlayerCellType))
+                    || currentGameState.isStandOff()){
                     when{
-                        gameStateTest.isWinState(Cell(content = currentPlayerCellType)) ->
+                        currentGameState.isWinState(Cell(content = currentPlayerCellType)) ->
                             Display.toConsole("Player $currentPlayerCellType WINS!!!!!")
-                        gameStateTest.isStandOff() ->
+                        currentGameState.isStandOff() ->
                             Display.toConsole("It's a standoff -_-")
                     }
-                    Display.toConsole("$gameStateTest")
+                    Display.toConsole("$currentGameState")
                     return
                 }
+                currentGameState = currentGameState.updateGameState()
             } // end game loop
         }
 
-        private fun getCurrentPlayerAngMakeMove(gameStateTest: GameStateTest)  : Player{
-            gameStateTest.prevGameStateTest = gameStateTest.copy()
-            val currentPlayer = gameStateTest.getNextPlayer()
-            val (row, col) = currentPlayer.getNextMove(gameStateTest)
-            gameStateTest.setCell(Cell(
+        private fun getCurrentPlayerAngMakeMove(gameState: GameState)  : Player{
+            val currentPlayer = gameState.getNextPlayer()
+            val (row, col) = currentPlayer.getNextMove(gameState)
+            gameState.setCell(Cell(
                 row = row,
                 col = col,
                 content = currentPlayer.cellType
             ))
-            gameStateTest.listOfMoves.add(Pair(row,col))
+            gameState.listOfMoves.add(Pair(row,col))
             return currentPlayer
         }
     }

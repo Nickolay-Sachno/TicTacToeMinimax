@@ -16,7 +16,7 @@ class Cell (val row : Int = -1, val col : Int = -1, var content : CellType = Cel
         return this.content.chr.toString()
     }
 
-    fun copy() : Cell{
+    fun deepCopy() : Cell{
         return Cell(
             row = this.row,
             col = this.col,

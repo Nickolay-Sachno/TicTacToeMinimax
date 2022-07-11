@@ -23,11 +23,11 @@ class Grid(
         return temp
     }
 
-    fun copy() : Grid{
+    fun deepCopy() : Grid{
         val grid = Grid(this.dim)
         grid.matrix.forEachIndexed { row, arrayOfCells ->
             arrayOfCells.forEachIndexed { column, cell ->
-                grid.matrix[row][column] = this.matrix[row][column].copy()
+                grid.matrix[row][column] = this.matrix[row][column].deepCopy()
             }
         }
         return grid
@@ -43,7 +43,7 @@ class Grid(
 
     fun fillRandomGrid() : Grid{
         val listOfMoves = listOf<CellType>(CellType.CIRCLE, CellType.CROSS)
-        var grid = this.copy()
+        var grid = this.deepCopy()
         for(i in 0 until dim){
             for(j in 0 until dim){
                 var temp = Random.nextInt(listOfMoves.size)
@@ -55,7 +55,7 @@ class Grid(
 
     fun fillRandomGridWithSpaces() : Grid{
         val listOfMoves = listOf<CellType>(CellType.CIRCLE, CellType.CROSS, CellType.EMPTY)
-        var grid = this.copy()
+        var grid = this.deepCopy()
         for(i in 0 until dim){
             for(j in 0 until dim){
                 var temp = Random.nextInt(listOfMoves.size)
@@ -76,7 +76,7 @@ class Grid(
     }
 
     fun setNewCell(cell: Cell) {
-        matrix[cell.row][cell.col] = cell.copy()
+        matrix[cell.row][cell.col] = cell.deepCopy()
     }
 
     fun getSize() : Int{
@@ -85,5 +85,13 @@ class Grid(
 
     fun getCell(row:Int, col:Int) : Cell{
         return matrix[row][col]
+    }
+
+    fun isEmpty(): Boolean {
+       return matrix.all {
+           row -> row.all {
+               cell -> cell.content == CellType.EMPTY
+           }
+       }
     }
 }

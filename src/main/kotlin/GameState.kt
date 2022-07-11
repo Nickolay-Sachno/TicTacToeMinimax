@@ -1,21 +1,21 @@
-class GameStateTest(
+class GameState(
     val grid: Grid,
     val listOfPlayers: MutableList<Player>,
     val notVisitedCell: Cell,
-    val listOfMoves : MutableList<Pair<Int,Int>>) {
-
-    var prevGameStateTest: GameStateTest = this
+    val listOfMoves : MutableList<Pair<Int,Int>>,
+    var mPrevGameState: GameState? = null) {
 
     override fun toString(): String {
         return "$grid\n"
     }
 
-    fun copy() : GameStateTest{
-        return GameStateTest(
-            grid = this.grid.copy(),
+    fun deepCopy(gameState: GameState? = null) : GameState{
+        return GameState(
+            grid = this.grid.deepCopy(),
             listOfPlayers = this.listOfPlayers.toMutableList(),
             notVisitedCell = this.notVisitedCell,
-            listOfMoves = this.listOfMoves.toMutableList()
+            listOfMoves = this.listOfMoves.toMutableList(),
+            mPrevGameState = gameState
         )
     }
 
@@ -111,5 +111,11 @@ class GameStateTest(
             }
         }
         return true
+    }
+
+    fun updateGameState(): GameState {
+        val newGameState = this.deepCopy()
+        newGameState.mPrevGameState = this
+        return newGameState
     }
 }

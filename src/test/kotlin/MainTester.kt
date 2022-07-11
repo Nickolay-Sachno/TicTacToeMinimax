@@ -1,10 +1,6 @@
 fun main() {
-    val agent = NewAgent.createAgent(
-        cellType = CellType.CIRCLE,
-        diff = AgentDiff.MEDIUM
-    )
 
-    val gameStateTest = GameStateTest(
+    val gameState = GameState(
         grid = Grid(3),
         listOfPlayers = mutableListOf(
             User(
@@ -19,7 +15,5 @@ fun main() {
         listOfMoves = mutableListOf()
     )
 
-    Manager.play(gameStateTest)
-
-    val temp = gameStateTest.currentTurn()
+    Manager.play(gameState)
 }
