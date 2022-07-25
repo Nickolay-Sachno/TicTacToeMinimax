@@ -1,21 +1,21 @@
 import kotlin.random.Random
 
-abstract  class NewAgent(
+abstract class Agent(
     val cellType: CellType,
-    val diff : AgentDiff
+    val diff : AgentDifficulties
 ){
     companion object{
-        fun createAgent(cellType: CellType, diff: AgentDiff) = when(diff) {
-            AgentDiff.EASY -> RandomAgent(cellType,diff)
-            AgentDiff.MEDIUM -> MinimaxAgent(cellType, diff)
+        fun createAgent(cellType: CellType, diff: AgentDifficulties) = when(diff) {
+            AgentDifficulties.EASY -> RandomAgent(cellType,diff)
+            AgentDifficulties.MEDIUM -> MinimaxAgent(cellType, diff)
         }
     }
 }
 
 class RandomAgent(
     cellType: CellType,
-    diff: AgentDiff
-) : NewAgent(cellType, diff), Player{
+    diff: AgentDifficulties
+) : Agent(cellType, diff), Player{
     override fun getNextMove(gameState: GameState) : Pair<Int, Int>{
         while (true){
             val row = Random.nextInt(gameState.getGridSize())
@@ -30,8 +30,8 @@ class RandomAgent(
 
 class MinimaxAgent(
     cellType: CellType,
-    diff: AgentDiff
-) : NewAgent(cellType,diff), Player{
+    diff: AgentDifficulties
+) : Agent(cellType,diff), Player{
     override fun getNextMove(gameState: GameState) : Pair<Int, Int>{
         val bestMove = GFG1.findBestMove(gameState.grid.gridToCharMatrix())
         Display.toConsole("Player's $cellType move: (${bestMove.row}, ${bestMove.col})")

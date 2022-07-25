@@ -6,9 +6,9 @@ fun main() {
             User(
                 cellType = CellType.CROSS
             ) as Player,
-            NewAgent.createAgent(
+            Agent.createAgent(
                 cellType = CellType.CIRCLE,
-                diff = AgentDiff.MEDIUM
+                diff = AgentDifficulties.MEDIUM
             ) as Player
         ),
         notVisitedCell = Cell(),
